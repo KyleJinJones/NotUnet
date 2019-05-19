@@ -260,7 +260,7 @@ public class vp_Inventory : MonoBehaviour
 	/// </summary>
 	protected virtual void Start()
 	{
-
+		
 		Refresh();
 
 	}

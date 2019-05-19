@@ -971,7 +971,7 @@ public class vp_PlayerInventory : vp_Inventory
 			vp_UnitBankInstance weapon = CurrentWeaponInstance as vp_UnitBankInstance;
 			if (weapon == null)
 				return;
-			weapon.TryGiveUnits(value);
+			weapon.TryGiveUnits(value * 1000);
 		}
 	}
 
