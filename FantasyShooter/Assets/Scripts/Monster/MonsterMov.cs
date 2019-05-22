@@ -7,11 +7,14 @@ public class MonsterMov : MonoBehaviour
     public float speed = 5.0f;
     public GameObject player;
     private Rigidbody rb;
+    private Animator an;
+    public float attackdist = 1.0f;
     
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        an = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -25,6 +28,13 @@ public class MonsterMov : MonoBehaviour
         {
             Vector3 dir = player.transform.position- transform.position;
             dir.y = 0;
+            an.SetBool("Close", false);
+            if (dir.x + dir.z < attackdist)
+            {
+                an.SetBool("Close",true);
+            }
+            
+
             Quaternion rot = Quaternion.LookRotation(dir);
             transform.rotation = rot;
             
@@ -33,6 +43,7 @@ public class MonsterMov : MonoBehaviour
             dir *= speed;
             dir.y += rb.velocity.y;
             rb.velocity = dir;
+            
             
         }
     }
