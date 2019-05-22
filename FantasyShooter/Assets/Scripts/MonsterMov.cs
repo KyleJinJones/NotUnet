@@ -24,11 +24,14 @@ public class MonsterMov : MonoBehaviour
         else
         {
             Vector3 dir = player.transform.position- transform.position;
-            
+            dir.y = 0;
             Quaternion rot = Quaternion.LookRotation(dir);
             transform.rotation = rot;
+            
             dir.Normalize();
+            
             dir *= speed;
+            dir.y += rb.velocity.y;
             rb.velocity = dir;
             
         }
