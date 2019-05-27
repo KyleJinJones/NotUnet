@@ -10,13 +10,17 @@ public class EnterVehicleDrive : MonoBehaviour
     [SerializeField] private GameObject player;
 
     void Awake() {
-        vehicleScript = GetComponent<CarUserControl>();
+        vehicleScript = this.GetComponentInParent<CarUserControl>();
+    }
+
+    void Start() {
         vehicleScript.enabled = false;
     }
 
-    void Start()
-    {
-        player = GameObject.FindWithTag("Player");
+    void OnTriggerEnter(Collider other) {
+        if(other.gameObject.CompareTag("Player")) {
+            player = other.gameObject;
+        }
     }
 
     // Update is called once per frame
