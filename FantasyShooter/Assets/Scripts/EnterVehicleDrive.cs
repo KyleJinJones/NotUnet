@@ -6,8 +6,8 @@ using UnityStandardAssets.Vehicles.Car;
 public class EnterVehicleDrive : MonoBehaviour
 {
     private bool inVehicle = false;
-    CarUserControl vehicleScript;
-    GameObject player;
+    private CarUserControl vehicleScript;
+    [SerializeField] private GameObject player;
 
     void Awake() {
         vehicleScript = GetComponent<CarUserControl>();
@@ -26,16 +26,17 @@ public class EnterVehicleDrive : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.G))
             {
+                inVehicle = true;
+                player.SetActive(false);
                 player.transform.parent = gameObject.transform;              
                 vehicleScript.enabled = true;
-                player.SetActive(false);
-                inVehicle = true;
+                
             }
         }  
     }
     void Update()
     {
-        if (inVehicle == true && Input.GetKey(KeyCode.G))
+        if (inVehicle == true && Input.GetKey(KeyCode.F))
         {
             vehicleScript.enabled = false;
             player.SetActive(true);
