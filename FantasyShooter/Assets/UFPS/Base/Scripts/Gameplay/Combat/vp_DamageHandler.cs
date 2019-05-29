@@ -26,6 +26,7 @@ using UnityEngine.SceneManagement;
 
 public class vp_DamageHandler : MonoBehaviour
 {
+    public bool animated = false;
 
 	// health and death
 	public float MaxHealth = 1.0f;						// initial health of the object instance, to be reset on respawn
@@ -346,7 +347,12 @@ public class vp_DamageHandler : MonoBehaviour
 			}
 		}
 
-		if (Respawner == null)
+        if (animated)
+        {
+            Debug.Log("dying");
+            StartCoroutine(this.GetComponent<MonsterMov>().Dead());
+        }
+		else if (Respawner == null)
 		{
 			vp_Utility.Destroy(gameObject);
 		}
