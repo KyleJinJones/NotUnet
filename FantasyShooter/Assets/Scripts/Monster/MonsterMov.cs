@@ -32,7 +32,7 @@ public class MonsterMov : MonoBehaviour
         }
         else
         {
-            Debug.Log("not dead");
+            
             Vector3 dir = player.transform.position- transform.position;
             dir.y = 0;
             an.SetBool("Close", false);
