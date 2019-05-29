@@ -58,6 +58,7 @@ public class MonsterMov : MonoBehaviour
 
     public IEnumerator Dead()
     {
+        this.GetComponent<BoxCollider>().enabled = false;
         dead = true;
         an.SetBool("Dead", true);
         yield return new WaitForSeconds(5);
