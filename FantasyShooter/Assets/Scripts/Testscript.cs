@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Testscript : MonoBehaviour
 {
-    // Start is called before the first frame update
+    // Simulates a press of 1, causes the player to pull out their starting pistol.
     void Start()
     {
        GetComponent<vp_FPInput>().FPPlayer.SetWeapon.TryStart(1);
