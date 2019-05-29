@@ -26,8 +26,13 @@ public class MonsterMov : MonoBehaviour
         {
             Debug.Log("PLAYER NOT SET");
         }
-        else if(!dead)
+        else if (dead)
         {
+
+        }
+        else
+        {
+            Debug.Log("not dead");
             Vector3 dir = player.transform.position- transform.position;
             dir.y = 0;
             an.SetBool("Close", false);
