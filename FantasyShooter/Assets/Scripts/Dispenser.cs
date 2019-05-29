@@ -9,6 +9,7 @@ public class Dispenser : MonoBehaviour
     public GameObject reward;
     public GameObject rewardmodel;
     private GameObject rmodel;
+    public int cost = 10;
 
     void Start()
     {
@@ -18,8 +19,7 @@ public class Dispenser : MonoBehaviour
             Debug.Log("Reward not set at gameobject"+this.name);
         }
 
-        rmodel = Instantiate(rewardmodel, this.transform);
-        rmodel.transform.position = rmodel.transform.position + Vector3.forward;
+        Instantiate(rewardmodel, this.transform.position+Vector3.forward, Quaternion.identity);
     }
 
     // Update is called once per frame
@@ -30,9 +30,10 @@ public class Dispenser : MonoBehaviour
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Player")&&Input.GetKeyDown(KeyCode.F))
+        if (other.CompareTag("Player")&&Input.GetKeyDown(KeyCode.F)&&other.GetComponent<Money>().playermoney>=cost)
         {
-            Instantiate(reward, other.transform);
+            Instantiate(reward, other.transform.position, Quaternion.identity);
+            other.GetComponent<Money>().updatemoney(-cost);
         }
     }
 }
