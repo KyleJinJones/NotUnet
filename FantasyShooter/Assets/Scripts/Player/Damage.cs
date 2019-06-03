@@ -5,6 +5,7 @@ using UnityEngine;
 public class Damage : MonoBehaviour
 {
     Transform Player;
+    public float dmgamt;
     private void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player").transform;
@@ -14,7 +15,7 @@ public class Damage : MonoBehaviour
         Debug.Log(collision.gameObject.name);
         if(vp_DamageHandler.GetDamageHandlerOfCollider(collision.collider) != null&&!collision.collider.CompareTag("Player"))
         {
-            vp_DamageHandler.GetDamageHandlerOfCollider(collision.collider).Damage(new vp_DamageInfo(1.0f, this.transform));
+            vp_DamageHandler.GetDamageHandlerOfCollider(collision.collider).Damage(new vp_DamageInfo(dmgamt,Player));
         }
 
     }
