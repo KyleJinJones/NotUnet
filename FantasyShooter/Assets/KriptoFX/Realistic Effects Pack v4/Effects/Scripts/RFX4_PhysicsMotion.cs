@@ -85,6 +85,11 @@ public class RFX4_PhysicsMotion : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        if (collision.collider.CompareTag("Player"))
+        {
+            Debug.Log("HitSelf");
+            return;
+        }
         if (isCollided && !effectSettings.UseCollisionDetection) return;
         foreach (ContactPoint contact in collision.contacts)
         {
