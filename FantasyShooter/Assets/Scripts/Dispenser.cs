@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class Dispenser : MonoBehaviour
 {
@@ -9,7 +10,11 @@ public class Dispenser : MonoBehaviour
     public GameObject reward;
     public GameObject rewardmodel;
     private GameObject rmodel;
+    public GameObject ammo;
+    private bool got = false;
     public int cost = 10;
+    public GameObject interactpanel;
+    public string name;
 
     void Start()
     {
@@ -32,8 +37,27 @@ public class Dispenser : MonoBehaviour
     {
         if (other.CompareTag("Player")&&Input.GetKeyDown(KeyCode.F)&&other.GetComponent<Money>().playermoney>=cost)
         {
-            Instantiate(reward, other.transform.position, Quaternion.identity);
+            if (!got)
+            {
+                Instantiate(reward, other.transform.position, Quaternion.identity);
+                got = true;
+            }
+            else
+            {
+                Instantiate(ammo, other.transform.position, Quaternion.identity);
+            }
             other.GetComponent<Money>().updatemoney(-cost);
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        interactpanel.SetActive(true);
+        interactpanel.GetComponent<TextMeshProUGUI>().text = string.Format("Press F for {0}. Cost: {1}",name,cost);
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        interactpanel.SetActive(false);
     }
 }

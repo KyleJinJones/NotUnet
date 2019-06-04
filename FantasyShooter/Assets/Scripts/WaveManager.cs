@@ -8,9 +8,15 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private int enemiesLeft;
     [SerializeField] private int enemiesToSpawn;
     [SerializeField] private float spawnRate;   // per seconds
-
+    public GameObject player;
+    public float mindist = 10.0f;
+    public float maxdist = 30.0f;
     private Vector3[] spawnPoints;
     [SerializeField] private float timer;
+    public List<GameObject> enemies;
+    public GameObject dispensers;
+    
+
 
     private bool stopSpawning;
 
@@ -19,13 +25,23 @@ public class WaveManager : MonoBehaviour
     {
         timer = spawnRate; 
         stopSpawning = false;
+        enemies = new List<GameObject>();
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        
         if(!stopSpawning) {timer -= Time.deltaTime;}
+        else if(CheckEnemies())
+        {
+            enemies = new List<GameObject>();
+            this.gameObject.SetActive(false);
+            dispensers.SetActive(true);
+            enemiesLeft = 10;
+            stopSpawning = false;
+            
+        }
 
         if(timer <= 0 )
         {
@@ -44,7 +60,10 @@ public class WaveManager : MonoBehaviour
     {
         for (int i = numOfEnemies - 1; i >= 0; --i)
         {
-            Instantiate(enemy, spawnPoints[i], Quaternion.identity);
+            GameObject temp =Instantiate(enemy, spawnPoints[i], Quaternion.identity);
+            temp.GetComponent<MonsterMov>().player = player;
+            enemies.Add(temp);
+            
         }
     }
 
@@ -54,9 +73,36 @@ public class WaveManager : MonoBehaviour
 
         for(int i = 0; i < length; ++i)
         {
-            Vector3 randomPoint = new Vector3(Random.Range(-5, 5), 1.3f, Random.Range(-5, 5));
+            Vector3 randomPoint = new Vector3(randfloat(player.transform.position.x), 1.3f, randfloat(player.transform.position.z));
+            Debug.Log(randomPoint);
             spawnPoints[i] = randomPoint;
         }
 
+    }
+
+    private float randfloat(float playerpos)
+    {
+        int i = Random.Range(0, 2);
+        print(i);
+        if (i == 1)
+        {
+            return Random.Range(mindist + playerpos, maxdist + playerpos);
+        }
+        else
+        {
+            return Random.Range(mindist - playerpos, maxdist - playerpos);
+        }
+    }
+
+    private bool CheckEnemies()
+    {
+        foreach (GameObject go in enemies)
+        {
+            if (go != null)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 }
