@@ -83,14 +83,15 @@ public class WaveManager : MonoBehaviour
     private float randfloat(float playerpos)
     {
         int i = Random.Range(0, 2);
+        float output = Random.Range(mindist, maxdist);
         print(i);
         if (i == 1)
         {
-            return Random.Range(mindist + playerpos, maxdist + playerpos);
+            return playerpos - output;
         }
         else
         {
-            return Random.Range(mindist - playerpos, maxdist - playerpos);
+            return playerpos + output;
         }
     }
 
