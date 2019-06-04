@@ -24,7 +24,7 @@ public class Dispenser : MonoBehaviour
             Debug.Log("Reward not set at gameobject"+this.name);
         }
 
-        Instantiate(rewardmodel, this.transform.position+Vector3.forward, Quaternion.identity);
+        Instantiate(rewardmodel, this.transform.position+Vector3.right, Quaternion.identity);
     }
 
     // Update is called once per frame
