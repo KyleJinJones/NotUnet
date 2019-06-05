@@ -12,7 +12,7 @@ public class Damage : MonoBehaviour
     }
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log(collision.gameObject.name);
+        //Debug.Log(collision.gameObject.name);
         if(vp_DamageHandler.GetDamageHandlerOfCollider(collision.collider) != null&&!collision.collider.CompareTag("Player"))
         {
             vp_DamageHandler.GetDamageHandlerOfCollider(collision.collider).Damage(new vp_DamageInfo(dmgamt,Player));

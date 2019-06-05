@@ -11,7 +11,8 @@ public class MonsterMov : MonoBehaviour
     public float attackdist = 1.0f;
     public bool dead = false;
     public MAttack ma;
-    
+    [SerializeField] private GameObject powerup;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,6 +64,10 @@ public class MonsterMov : MonoBehaviour
         this.GetComponent<BoxCollider>().enabled = false;
         dead = true;
         an.SetBool("Dead", true);
+        if (Random.Range(0, 10) == 3)
+        {
+            Instantiate(powerup, this.transform.position, Quaternion.identity);
+        }
         yield return new WaitForSeconds(5);
         Destroy(this.gameObject);
     }

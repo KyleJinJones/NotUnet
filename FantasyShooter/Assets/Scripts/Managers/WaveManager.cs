@@ -79,7 +79,7 @@ public class WaveManager : MonoBehaviour
         for(int i = 0; i < length; ++i)
         {
             Vector3 randomPoint = new Vector3(randfloat(player.transform.position.x), 1.3f, randfloat(player.transform.position.z));
-            Debug.Log(randomPoint);
+           // Debug.Log(randomPoint);
             spawnPoints[i] = randomPoint;
         }
 
