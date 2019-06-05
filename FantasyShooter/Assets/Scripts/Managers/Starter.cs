@@ -5,20 +5,22 @@ using TMPro;
 
 public class Starter : MonoBehaviour
 {
-    public GameObject Manager;
+    public WaveManager Manager;
     public GameObject Dispensers;
     public GameObject interactpanel;
     // Start is called before the first frame update
     void Start()
     {
-        
+        Manager = GameObjectManager.wm;
+        Dispensers = GameObjectManager.dispensers;
+        interactpanel = GameObjectManager.interactpanel;
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (Input.GetKeyDown(KeyCode.F) && other.CompareTag("Player"))
         {
-            Manager.SetActive(true);
+            Manager.enabled=true;
             Dispensers.SetActive(false);
             //this.gameObject.SetActive(false);
             interactpanel.SetActive(false);

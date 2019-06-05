@@ -8,7 +8,7 @@ public class Damage : MonoBehaviour
     public float dmgamt;
     private void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player").transform;
+        Player = GameObjectManager.player.transform;
     }
     private void OnCollisionEnter(Collision collision)
     {

@@ -5,6 +5,7 @@ using UnityEngine;
 public class WaveManager : MonoBehaviour
 {
     [SerializeField] private GameObject enemy; // Enemy prefab
+     private int baseenemiesleft; // Stored base value 
     [SerializeField] private int enemiesLeft;
     [SerializeField] private int enemiesToSpawn;
     [SerializeField] private float spawnRate;   // per seconds
@@ -15,7 +16,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private float timer;
     public List<GameObject> enemies;
     public GameObject dispensers;
-    
+    [SerializeField] private float incpercent=1.4f;//percent enemies increase by each round
 
 
     private bool stopSpawning;
@@ -23,6 +24,9 @@ public class WaveManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        baseenemiesleft = enemiesLeft;
+        dispensers = GameObjectManager.dispensers;
+        player = GameObjectManager.player;
         timer = spawnRate; 
         stopSpawning = false;
         enemies = new List<GameObject>();
@@ -33,20 +37,21 @@ public class WaveManager : MonoBehaviour
     {
         
         if(!stopSpawning) {timer -= Time.deltaTime;}
+        //Checks if there are any enemies left, and then if there are none, then it turns itself off, brings back the dispensers and rests its enemycount
         else if(CheckEnemies())
         {
             enemies = new List<GameObject>();
-            this.gameObject.SetActive(false);
             dispensers.SetActive(true);
-            enemiesLeft = 10;
+            baseenemiesleft = (int)(baseenemiesleft * incpercent) ;
+            enemiesLeft = baseenemiesleft;
             stopSpawning = false;
-            
+            this.enabled = false;
+
         }
 
         if(timer <= 0 )
         {
             initSpawnPoints(enemiesToSpawn);
-            Debug.Log("b");
             spawnEnemies(enemiesToSpawn);
 
             enemiesLeft -= enemiesToSpawn;

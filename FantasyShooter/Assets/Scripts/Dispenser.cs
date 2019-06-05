@@ -14,7 +14,7 @@ public class Dispenser : MonoBehaviour
     private bool got = false;
     public int cost = 10;
     public GameObject interactpanel;
-    public string name;
+    public string rewardname;
 
     void Start()
     {
@@ -24,7 +24,9 @@ public class Dispenser : MonoBehaviour
             Debug.Log("Reward not set at gameobject"+this.name);
         }
 
-        Instantiate(rewardmodel, this.transform.position+Vector3.right, Quaternion.identity);
+        Instantiate(rewardmodel, this.transform.position+Vector3.right, Quaternion.identity).transform.parent=this.transform;
+
+        interactpanel = GameObjectManager.interactpanel;
     }
 
     // Update is called once per frame
@@ -53,7 +55,7 @@ public class Dispenser : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         interactpanel.SetActive(true);
-        interactpanel.GetComponent<TextMeshProUGUI>().text = string.Format("Press F for {0}. Cost: {1}",name,cost);
+        interactpanel.GetComponent<TextMeshProUGUI>().text = string.Format("Press F for {0}. Cost: {1}",rewardname,cost);
     }
 
     private void OnTriggerExit(Collider other)
