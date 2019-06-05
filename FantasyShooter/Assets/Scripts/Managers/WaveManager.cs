@@ -89,7 +89,7 @@ public class WaveManager : MonoBehaviour
     {
         int i = Random.Range(0, 2);
         float output = Random.Range(mindist, maxdist);
-        print(i);
+
         if (i == 1)
         {
             return playerpos - output;

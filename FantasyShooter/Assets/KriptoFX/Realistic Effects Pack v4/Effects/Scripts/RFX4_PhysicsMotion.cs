@@ -90,6 +90,11 @@ public class RFX4_PhysicsMotion : MonoBehaviour
             Debug.Log("HitSelf");
             return;
         }
+        else if (collision.gameObject.GetComponent<MonsterMov>() != null && collision.gameObject.GetComponent<MonsterMov>().dead)
+        {
+            Debug.Log("Hit Dead thing");
+            return;
+        }
         if (isCollided && !effectSettings.UseCollisionDetection) return;
         foreach (ContactPoint contact in collision.contacts)
         {

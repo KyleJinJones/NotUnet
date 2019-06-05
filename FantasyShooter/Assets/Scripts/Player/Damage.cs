@@ -8,14 +8,14 @@ public class Damage : MonoBehaviour
     public float dmgamt;
     private void Start()
     {
-        Player = GameObjectManager.player.transform;
+        
     }
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log(collision.gameObject.name);
         if(vp_DamageHandler.GetDamageHandlerOfCollider(collision.collider) != null&&!collision.collider.CompareTag("Player"))
         {
-            vp_DamageHandler.GetDamageHandlerOfCollider(collision.collider).Damage(new vp_DamageInfo(dmgamt,Player));
+            vp_DamageHandler.GetDamageHandlerOfCollider(collision.collider).Damage(new vp_DamageInfo(dmgamt,GameObjectManager.player.transform));
         }
 
     }
