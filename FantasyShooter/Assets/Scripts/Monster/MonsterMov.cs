@@ -10,6 +10,7 @@ public class MonsterMov : MonoBehaviour
     private Animator an;
     public float attackdist = 1.0f;
     public bool dead = false;
+    public MAttack ma;
     
     // Start is called before the first frame update
     void Start()
@@ -39,6 +40,7 @@ public class MonsterMov : MonoBehaviour
             if (dir.x + dir.z < attackdist)
             {
                 an.SetBool("Close",true);
+                ma.attacking = true;
             }
             
 
