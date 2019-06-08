@@ -8,6 +8,8 @@ public class Starter : MonoBehaviour
     public WaveManager Manager;
     public GameObject Dispensers;
     public GameObject interactpanel;
+    private bool close = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -16,25 +18,41 @@ public class Starter : MonoBehaviour
         interactpanel = GameObjectManager.interactpanel;
     }
 
-    private void OnTriggerStay(Collider other)
+    private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.F) && other.CompareTag("Player"))
+        if (close&&Input.GetKeyDown(KeyCode.F))
         {
+            StartGame();
+            close = false;
+        }
+    }
+
+    private void StartGame() 
+    {
+
             Manager.enabled=true;
             Dispensers.SetActive(false);
             //this.gameObject.SetActive(false);
             interactpanel.SetActive(false);
-        }
+        
     }
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Player"))
+        {
+            close = true;
+        }
         interactpanel.SetActive(true);
         interactpanel.GetComponent<TextMeshProUGUI>().text = "Press F to Start";
     }
 
     private void OnTriggerExit(Collider other)
     {
+        if (other.CompareTag("Player"))
+        {
+            close = false;
+        }
         interactpanel.SetActive(false);
     }
 }
