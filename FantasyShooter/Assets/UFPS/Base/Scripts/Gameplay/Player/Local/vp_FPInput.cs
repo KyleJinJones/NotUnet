@@ -44,6 +44,10 @@ public class vp_FPInput : vp_Component
 
 	// misc
 	protected bool m_AllowGameplayInput = true;
+
+	public bool player2 = false;
+
+	 
 	public bool AllowGameplayInput
 	{
 		get { return m_AllowGameplayInput; }
@@ -72,7 +76,7 @@ public class vp_FPInput : vp_Component
 			FPPlayer.Register(this);
 
 	}
-
+	
 
 	/// <summary>
 	/// unregisters this component from the event handler (if any)
@@ -132,7 +136,12 @@ public class vp_FPInput : vp_Component
 	protected virtual void InputInteract()
 	{
 
-		if (vp_Input.GetButtonDown("Interact"))
+		string interact = "Interact1";
+		if(player2) {
+			interact = "Interact1";
+		}
+
+		if (vp_Input.GetButtonDown(interact))
 			FPPlayer.Interact.TryStart();
 		else
 			FPPlayer.Interact.TryStop();
@@ -149,8 +158,14 @@ public class vp_FPInput : vp_Component
 		// NOTE: you could also use 'GetAxis', but that would add smoothing
 		// to the input from both UFPS and from Unity, and might require some
 		// tweaking in order not to feel laggy
+		string horizontal = "Horizontal";
+		string vertical = "Vertical";
+		if(player2) {
+			horizontal = "HorizontalPlayer2";
+			vertical = "VerticalPlayer2";	
+		}
 
-		FPPlayer.InputMoveVector.Set(new Vector2(vp_Input.GetAxisRaw("Horizontal"), vp_Input.GetAxisRaw("Vertical")));
+		FPPlayer.InputMoveVector.Set(new Vector2(vp_Input.GetAxisRaw(horizontal), vp_Input.GetAxisRaw(vertical)));
 
 	}
 
@@ -165,8 +180,15 @@ public class vp_FPInput : vp_Component
 	protected virtual void InputRun()
 	{
 
-		if (vp_Input.GetButton("Run")
-			  || vp_Input.GetAxisRaw("LeftTrigger") > 0.5f		// sprint using the left gamepad trigger
+		string trigger = "LeftTriggerPlayer1";
+		string run = "Run1";
+		if(player2) {
+			trigger = "LeftTriggerPlayer2";
+			run = "Run2";
+		}
+
+		if (vp_Input.GetButton(run)
+			  || vp_Input.GetAxisRaw(trigger) > 0.5f		// sprint using the left gamepad trigger
 			)
 			FPPlayer.Run.TryStart();
 		else
@@ -189,7 +211,12 @@ public class vp_FPInput : vp_Component
 		// succeeds and where it is hooked up, search the project
 		// for 'CanStart_Jump'
 
-		if (vp_Input.GetButton("Jump"))
+		string jump = "Jump1";
+		if(player2) {
+			jump = "Jump2";
+		}
+
+		if (vp_Input.GetButton(jump))
 			FPPlayer.Jump.TryStart();
 		else
 			FPPlayer.Jump.Stop();
@@ -214,7 +241,12 @@ public class vp_FPInput : vp_Component
 		// updated when needed. this is important because changing its
 		// height every frame will make trigger detection break!
 
-		if (vp_Input.GetButton("Crouch"))
+		string crouch = "Crouch1";
+		if(player2) {
+			crouch = "Crouch2";
+		}
+
+		if (vp_Input.GetButton(crouch))
 			FPPlayer.Crouch.TryStart();
 		else
 			FPPlayer.Crouch.TryStop();
@@ -232,14 +264,21 @@ public class vp_FPInput : vp_Component
 	protected virtual void InputCamera()
 	{
 
+		string zoom = "Zoom1";
+		string toggle = "Toggle3rdPerson1";
+		if(player2) {
+			zoom = "Zoom2";
+			toggle = "Toggle3rdPerson2";
+		}
+
 		// zoom / ADS
-		if (vp_Input.GetButton("Zoom"))
+		if (vp_Input.GetButton(zoom))
 			FPPlayer.Zoom.TryStart();
 		else
 			FPPlayer.Zoom.TryStop();
 
 		// toggle 3rd person mode
-		if (vp_Input.GetButtonDown("Toggle3rdPerson"))
+		if (vp_Input.GetButtonDown(toggle))
 			FPPlayer.CameraToggle3rdPerson.Send();
 
 	}
@@ -262,11 +301,18 @@ public class vp_FPInput : vp_Component
 
 		// if mouse cursor is visible, an extra click is needed
 		// before we can attack
+		string trigger = "RightTriggerPlayer1";
+		string attack = "Attack1";
+		if(player2) {
+			trigger = "RightTriggerPlayer2";
+			attack = "Attack2";
+		} 
+
 		if (!vp_Utility.LockCursor)
 			return;
 
-		if (vp_Input.GetButton("Attack")
-			  || vp_Input.GetAxisRaw("RightTrigger") > 0.5f		// fire using the right gamepad trigger
+		if (vp_Input.GetButton(attack)
+			  || vp_Input.GetAxisRaw(trigger) > 0.5f		// fire using the right gamepad trigger
 			)
 			FPPlayer.Attack.TryStart();
 		else
@@ -282,8 +328,12 @@ public class vp_FPInput : vp_Component
 	/// </summary>
 	protected virtual void InputReload()
 	{
+		string reload = "Reload1";
+		if(player2) {
+			reload = "Reload2";
+		}
 
-		if (vp_Input.GetButtonDown("Reload"))
+		if (vp_Input.GetButtonDown(reload))
 			FPPlayer.Reload.TryStart();
 
 	}
@@ -296,12 +346,16 @@ public class vp_FPInput : vp_Component
 	protected virtual void InputSetWeapon()
 	{
 
+		string setNext = "SetNextWeapon1";
+		if(player2) {
+			setNext = "SetNextWeapon2";
+		} 
 		// --- cycle to the next or previous weapon ---
 
 		if (vp_Input.GetButtonDown("SetPrevWeapon"))
 			FPPlayer.SetPrevWeapon.Try();
 
-		if (vp_Input.GetButtonDown("SetNextWeapon"))
+		if (vp_Input.GetButtonDown(setNext))
 			FPPlayer.SetNextWeapon.Try();
 
 		// --- switch to weapon 1-10 by direct button press ---
@@ -395,9 +449,14 @@ public class vp_FPInput : vp_Component
 	DontLock:
 
 		// if user presses 'ENTER', toggle mouse cursor on / off
+	string menu = "Menu1";
+	if(player2) {
+		menu = "Menu2";
+	}
+
 		if (vp_Input.GetButtonUp("Accept1")
 			|| vp_Input.GetButtonUp("Accept2")
-			|| vp_Input.GetButtonUp("Menu")
+			|| vp_Input.GetButtonUp(menu)
 			)
 		{
 #if UNITY_EDITOR && UNITY_5
@@ -444,8 +503,15 @@ public class vp_FPInput : vp_Component
 
 		// --- fetch mouse input ---
 
-		m_MouseLookSmoothMove.x = vp_Input.GetAxisRaw("Mouse X") * Time.timeScale;
-		m_MouseLookSmoothMove.y = vp_Input.GetAxisRaw("Mouse Y") * Time.timeScale;
+		string mx = "Mouse X";
+		string my = "Mouse Y";
+		if(player2) {
+			mx = "Mouse X2";
+			my = "Mouse Y2";
+		}
+
+		m_MouseLookSmoothMove.x = vp_Input.GetAxisRaw(mx) * Time.timeScale;
+		m_MouseLookSmoothMove.y = vp_Input.GetAxisRaw(my) * Time.timeScale;
 
 		// --- mouse smoothing ---
 
@@ -515,8 +581,16 @@ public class vp_FPInput : vp_Component
 
 #endif
 
-		m_MouseLookRawMove.x = vp_Input.GetAxisRaw("Mouse X");
-		m_MouseLookRawMove.y = vp_Input.GetAxisRaw("Mouse Y");
+
+		string mx = "Mouse X";
+		string my = "Mouse Y";
+		if(player2) {
+			mx = "Mouse X2";
+			my = "Mouse Y2";
+		}
+
+		m_MouseLookRawMove.x = vp_Input.GetAxisRaw(mx);
+		m_MouseLookRawMove.y = vp_Input.GetAxisRaw(my);
 
 		return m_MouseLookRawMove;
 

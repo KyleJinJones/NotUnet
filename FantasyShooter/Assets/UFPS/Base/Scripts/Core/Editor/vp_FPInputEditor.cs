@@ -30,6 +30,8 @@ public class vp_FPInputEditor : Editor
 	public static bool m_StateFoldout;
 	public static bool m_PresetFoldout = true;
 
+	public static bool m_variablesFoldout;
+
 	private static vp_ComponentPersister m_Persister = null;
 
 	
@@ -75,6 +77,7 @@ public class vp_FPInputEditor : Editor
 
 			DoMouseLookFoldout();
 			DoMouseCursorFoldout();
+			variablesFoldout();
 
 		}
 		else
@@ -106,6 +109,14 @@ public class vp_FPInputEditor : Editor
 
 		}
 		
+	}
+
+
+	public virtual void variablesFoldout() {
+		m_variablesFoldout = EditorGUILayout.Foldout(m_variablesFoldout, "variables");
+		if(m_variablesFoldout) {
+			m_Component.player2 = EditorGUILayout.Toggle("player1", m_Component.player2);
+		}
 	}
 
 
