@@ -12,11 +12,13 @@ public class Dispenser : MonoBehaviour
     private GameObject rmodel;
     public GameObject ammo;
     private bool got = false;
+    private bool got2 = false;
     public int cost = 10;
     public GameObject interactpanel;
     public GameObject interactpanel2;
     public string rewardname;
     private bool close = false;
+    private bool close2 = false;
     private GameObject p1;
     private GameObject p2;
 
@@ -39,20 +41,41 @@ public class Dispenser : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (close&&Input.GetKeyDown(KeyCode.F) && p1.GetComponent<Money>().playermoney >= cost)
+        if (close && (Input.GetKeyDown(KeyCode.F)||Input.GetKeyDown(KeyCode.Joystick1Button0)) && p1.GetComponent<Money>().playermoney >= cost)
         {
-            if (!got)
+            GiveWeapon(p1, got,1);
+        }
+        else if(close2&&Input.GetAxisRaw("Interact2")==1&& p1.GetComponent<Money>().playermoney >= cost)
+        {
+            GiveWeapon(p2, got2,2);
+        }
+
+
+    }
+
+    private void GiveWeapon(GameObject player, bool hasweapon, int playerid)
+    {
+        if (!hasweapon)
+        {
+            Instantiate(reward, player.transform.position, Quaternion.identity);
+            hasweapon = true;
+            if (playerid == 1)
             {
-                Instantiate(reward, p1.transform.position, Quaternion.identity);
                 got = true;
             }
             else
             {
-                Instantiate(ammo, p1.transform.position, Quaternion.identity);
+                got2 = true;
             }
-            p1.GetComponent<Money>().updatemoney(-cost);
         }
-    }
+        else
+        {
+            Instantiate(ammo, player.transform.position, Quaternion.identity);
+        }
+        player.GetComponent<Money>().updatemoney(-cost);
+    
+
+}
 
     private void OnTriggerStay(Collider other)
     {
