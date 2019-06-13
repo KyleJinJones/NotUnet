@@ -37,6 +37,7 @@ public class vp_SimpleHUD : MonoBehaviour
 	protected float m_CurrentHealthOffset = 0;
 	protected float m_TargetAmmoOffset = 200;
 	protected float m_CurrentAmmoOffset = 200;
+    private float ammopos = 1.0f;
 	
 	// health
 	public Texture2D HealthIcon = null;
@@ -140,6 +141,15 @@ public class vp_SimpleHUD : MonoBehaviour
 
 		m_Player = transform.GetComponent<vp_FPPlayerEventHandler>();
 		m_Audio = m_Player.transform.GetComponent<AudioSource>();
+        if (this.gameObject.name == "Player2")
+        {
+            m_CurrentHealthOffset = Screen.width * .5f;
+            m_TargetHealthOffset = Screen.width * .5f;
+        }
+        else
+        {
+            ammopos = .5f;
+        }
 
 	}
 
@@ -282,11 +292,11 @@ public class vp_SimpleHUD : MonoBehaviour
 		}
 		else
 		{
-			DrawLabel("", new Vector2(m_CurrentAmmoOffset + Screen.width - 115 - (AmmoStyle.CalcSize(new GUIContent(m_Player.CurrentWeaponAmmoCount.Get().ToString())).x), Screen.height - 68), new Vector2(200, 52), AmmoStyle, AmmoColor, m_TranspBlack, null);	// background
+			DrawLabel("", new Vector2(m_CurrentAmmoOffset + Screen.width*ammopos - 115 - (AmmoStyle.CalcSize(new GUIContent(m_Player.CurrentWeaponAmmoCount.Get().ToString())).x), Screen.height - 68), new Vector2(135, 52), AmmoStyle, AmmoColor, m_TranspBlack, null);	// background
 			if (m_Player.CurrentAmmoIcon.Get() != null)
-				DrawLabel("", new Vector2(m_CurrentAmmoOffset + Screen.width - 105 - (AmmoStyle.CalcSize(new GUIContent(m_Player.CurrentWeaponAmmoCount.Get().ToString())).x), Screen.height - 58), new Vector2(32, 32), AmmoStyle, Color.white, AmmoColor, m_Player.CurrentAmmoIcon.Get());	// icon
-			DrawLabel(m_Player.CurrentWeaponAmmoCount.Get().ToString(), new Vector2(m_CurrentAmmoOffset + Screen.width - 177, Screen.height - BigFontOffset), new Vector2(110, 60), AmmoStyle, AmmoColor, Color.clear, null);		// value
-			DrawLabel("/ " + m_Player.CurrentWeaponClipCount.Get().ToString(), new Vector2((m_CurrentAmmoOffset + Screen.width - 60), Screen.height - SmallFontOffset), new Vector2(110, 60), AmmoStyleSmall, AmmoColor, Color.clear, null);		// total ammo count
+				DrawLabel("", new Vector2(m_CurrentAmmoOffset + Screen.width*ammopos - 105 - (AmmoStyle.CalcSize(new GUIContent(m_Player.CurrentWeaponAmmoCount.Get().ToString())).x), Screen.height - 58), new Vector2(32, 32), AmmoStyle, Color.white, AmmoColor, m_Player.CurrentAmmoIcon.Get());	// icon
+			DrawLabel(m_Player.CurrentWeaponAmmoCount.Get().ToString(), new Vector2(m_CurrentAmmoOffset + Screen.width*ammopos - 177, Screen.height - BigFontOffset), new Vector2(110, 60), AmmoStyle, AmmoColor, Color.clear, null);		// value
+			DrawLabel("/ " + m_Player.CurrentWeaponClipCount.Get().ToString(), new Vector2((m_CurrentAmmoOffset + Screen.width*ammopos - 60), Screen.height - SmallFontOffset), new Vector2(110, 60), AmmoStyleSmall, AmmoColor, Color.clear, null);		// total ammo count
 		}
 
 	}

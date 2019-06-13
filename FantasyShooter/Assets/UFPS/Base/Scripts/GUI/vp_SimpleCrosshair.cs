@@ -64,6 +64,12 @@ public class vp_SimpleCrosshair : MonoBehaviour
 	/// </summary>
 	void OnGUI()
 	{
+        //displacement= horizontal offset for crosshair
+        float displacement = .25f;
+        if (this.gameObject.name == "Player2")
+        {
+            displacement = .75f;
+        }
 
 		if (m_ImageCrosshair == null)
 			return;
@@ -78,7 +84,7 @@ public class vp_SimpleCrosshair : MonoBehaviour
 			return;
 
 		GUI.color = new Color(1, 1, 1, 0.8f);
-		GUI.DrawTexture(new Rect((Screen.width * 0.5f) - (m_ImageCrosshair.width * 0.5f),
+		GUI.DrawTexture(new Rect((Screen.width * displacement) - (m_ImageCrosshair.width * 0.5f),
 			(Screen.height * 0.5f) - (m_ImageCrosshair.height * 0.5f), m_ImageCrosshair.width,
 			m_ImageCrosshair.height), m_ImageCrosshair);
 		GUI.color = Color.white;
