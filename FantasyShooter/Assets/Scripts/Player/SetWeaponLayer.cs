@@ -15,10 +15,11 @@ public class SetWeaponLayer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        weaponcam.cullingMask &= 1 << 19;
         weaponcam.cullingMask |= 1 << 19;
 
 
-            foreach (Transform child in transform)
+        foreach (Transform child in transform)
             {
                 vp_Layer.Set(child.gameObject, 19,true);
             }
