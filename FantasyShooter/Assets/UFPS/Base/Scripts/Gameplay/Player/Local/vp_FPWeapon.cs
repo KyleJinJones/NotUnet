@@ -242,6 +242,7 @@ public class vp_FPWeapon : vp_Weapon
 		m_WeaponGroupTransform = m_WeaponGroup.transform;
 		m_WeaponGroupTransform.parent = Transform.parent;
 		m_WeaponGroupTransform.localPosition = PositionOffset;
+     
 		vp_Layer.Set(m_WeaponGroup, vp_Layer.Weapon);
 
 		// reposition weapon under weapon group gameobject
