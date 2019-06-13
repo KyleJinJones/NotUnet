@@ -26,7 +26,7 @@ public class WaveManager : MonoBehaviour
     {
         baseenemiesleft = enemiesLeft;
         dispensers = GameObjectManager.dispensers;
-        player = GameObjectManager.player;
+        player = GameObjectManager.player1;
         timer = spawnRate; 
         stopSpawning = false;
         enemies = new List<GameObject>();

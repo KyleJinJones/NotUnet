@@ -14,15 +14,18 @@ public class Dispenser : MonoBehaviour
     private bool got = false;
     public int cost = 10;
     public GameObject interactpanel;
+    public GameObject interactpanel2;
     public string rewardname;
     private bool close = false;
-    private GameObject p;
+    private GameObject p1;
+    private GameObject p2;
 
     void Start()
     {
-        p = GameObjectManager.player;
+        p1 = GameObjectManager.player1;
+        p2 = GameObjectManager.player2;
         //Check if prereqs have been set, instantiate preview model
-        if(rewardmodel == null || reward ==null)
+        if (rewardmodel == null || reward ==null)
         {
             Debug.Log("Reward not set at gameobject"+this.name);
         }
@@ -30,23 +33,24 @@ public class Dispenser : MonoBehaviour
         Instantiate(rewardmodel, this.transform.position+Vector3.right, Quaternion.identity).transform.parent=this.transform;
 
         interactpanel = GameObjectManager.interactpanel;
+        interactpanel2 = GameObjectManager.interactpanel2;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (close&&Input.GetKeyDown(KeyCode.F) && p.GetComponent<Money>().playermoney >= cost)
+        if (close&&Input.GetKeyDown(KeyCode.F) && p1.GetComponent<Money>().playermoney >= cost)
         {
             if (!got)
             {
-                Instantiate(reward, p.transform.position, Quaternion.identity);
+                Instantiate(reward, p1.transform.position, Quaternion.identity);
                 got = true;
             }
             else
             {
-                Instantiate(ammo, p.transform.position, Quaternion.identity);
+                Instantiate(ammo, p1.transform.position, Quaternion.identity);
             }
-            p.GetComponent<Money>().updatemoney(-cost);
+            p1.GetComponent<Money>().updatemoney(-cost);
         }
     }
 
@@ -79,9 +83,16 @@ public class Dispenser : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             close = true;
+
+            GameObject temp = interactpanel;
+            
+            if (other.name == "Player2")
+            {
+                temp = interactpanel2;
+            }
+            temp.SetActive(true);
+            temp.GetComponent<TextMeshProUGUI>().text = string.Format("Press F for {0}. Cost: {1}", rewardname, cost);
         }
-        interactpanel.SetActive(true);
-        interactpanel.GetComponent<TextMeshProUGUI>().text = string.Format("Press F for {0}. Cost: {1}",rewardname,cost);
     }
 
     private void OnTriggerExit(Collider other)
@@ -89,8 +100,15 @@ public class Dispenser : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             close = false;
+            GameObject temp = interactpanel;
+            if (other.name == "Player2")
+            {
+                temp = interactpanel2;
+            }
+            temp.SetActive(false);
+
         }
 
-        interactpanel.SetActive(false);
+        
     }
 }
