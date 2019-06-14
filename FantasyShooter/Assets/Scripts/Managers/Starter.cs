@@ -8,7 +8,9 @@ public class Starter : MonoBehaviour
     public WaveManager Manager;
     public GameObject Dispensers;
     public GameObject interactpanel;
+    public GameObject interactpanel2;
     private bool close = false;
+    private bool close2 = false;
 
     // Start is called before the first frame update
     void Start()
@@ -16,13 +18,21 @@ public class Starter : MonoBehaviour
         Manager = GameObjectManager.wm;
         Dispensers = GameObjectManager.dispensers;
         interactpanel = GameObjectManager.interactpanel;
+        interactpanel2 = GameObjectManager.interactpanel2;
     }
 
     private void Update()
     {
-        if (close&&Input.GetKeyDown(KeyCode.F))
+        if (close&&(Input.GetKeyDown(KeyCode.F)||Input.GetKeyDown(KeyCode.Joystick1Button0)))
         {
             StartGame();
+            close = false;
+            close2 = false;
+        }
+        else if (close2 && (Input.GetKeyDown(KeyCode.Joystick2Button0)))
+        {
+            StartGame();
+            close2 = false;
             close = false;
         }
     }
@@ -41,18 +51,39 @@ public class Starter : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            close = true;
+            
+
+            GameObject temp = interactpanel;
+
+            if (other.name == "Player2")
+            {
+                temp = interactpanel2;
+                close2 = true;
+            }
+            else
+            {
+                close = true;
+            }
+
+            temp.SetActive(true);
+            temp.GetComponent<TextMeshProUGUI>().text = "Press F or X to Start";
         }
-        interactpanel.SetActive(true);
-        interactpanel.GetComponent<TextMeshProUGUI>().text = "Press F to Start";
     }
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            close = false;
+           
+
+            if (other.name == "Player2")
+            {
+                interactpanel2.SetActive(false);
+            }
+            else
+            {
+                interactpanel.SetActive(false);
+            }
         }
-        interactpanel.SetActive(false);
     }
 }

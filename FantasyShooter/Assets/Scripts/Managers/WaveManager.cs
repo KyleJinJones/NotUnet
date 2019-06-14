@@ -10,6 +10,7 @@ public class WaveManager : MonoBehaviour
     [SerializeField] private int enemiesToSpawn;
     [SerializeField] private float spawnRate;   // per seconds
     public GameObject player;
+    public GameObject player2;
     public float mindist = 10.0f;
     public float maxdist = 30.0f;
     private Vector3[] spawnPoints;
@@ -27,6 +28,7 @@ public class WaveManager : MonoBehaviour
         baseenemiesleft = enemiesLeft;
         dispensers = GameObjectManager.dispensers;
         player = GameObjectManager.player1;
+        player2 = GameObjectManager.player2;
         timer = spawnRate; 
         stopSpawning = false;
         enemies = new List<GameObject>();
@@ -51,7 +53,7 @@ public class WaveManager : MonoBehaviour
 
         if(timer <= 0 )
         {
-            initSpawnPoints(enemiesToSpawn);
+            //initSpawnPoints(enemiesToSpawn);
             spawnEnemies(enemiesToSpawn);
 
             enemiesLeft -= enemiesToSpawn;
@@ -63,22 +65,32 @@ public class WaveManager : MonoBehaviour
 
     public void spawnEnemies(int numOfEnemies)
     {
+        GameObject targetplayer;
         for (int i = numOfEnemies - 1; i >= 0; --i)
         {
-            GameObject temp =Instantiate(enemy, spawnPoints[i], Quaternion.identity);
-            temp.GetComponent<MonsterMov>().player = player;
+            if (Random.Range(1, 3) ==1)
+            {
+                targetplayer = player;
+            }
+            else
+            {
+                targetplayer = player2;
+            }
+            initSpawnPoints(1, targetplayer);
+            GameObject temp =Instantiate(enemy, spawnPoints[0], Quaternion.identity);
+            temp.GetComponent<MonsterMov>().player = targetplayer;
             enemies.Add(temp);
             
         }
     }
 
-    public void initSpawnPoints(int length)
+    public void initSpawnPoints(int length, GameObject targetplayer)
     {
         spawnPoints = new Vector3[length];
 
         for(int i = 0; i < length; ++i)
         {
-            Vector3 randomPoint = new Vector3(randfloat(player.transform.position.x), 1.3f, randfloat(player.transform.position.z));
+            Vector3 randomPoint = new Vector3(randfloat(targetplayer.transform.position.x), 1.3f, randfloat(targetplayer.transform.position.z));
            // Debug.Log(randomPoint);
             spawnPoints[i] = randomPoint;
         }

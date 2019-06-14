@@ -45,7 +45,7 @@ public class Dispenser : MonoBehaviour
         {
             GiveWeapon(p1, got,1);
         }
-        else if(close2&&Input.GetAxisRaw("Interact2")==1&& p1.GetComponent<Money>().playermoney >= cost)
+        else if(close2&&Input.GetKeyDown(KeyCode.Joystick2Button0)&& p2.GetComponent<Money>().playermoney >= cost)
         {
             GiveWeapon(p2, got2,2);
         }
