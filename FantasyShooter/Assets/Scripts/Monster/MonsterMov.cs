@@ -12,6 +12,10 @@ public class MonsterMov : MonoBehaviour
     public bool dead = false;
     public MAttack ma;
     [SerializeField] private GameObject powerup;
+    [SerializeField] AudioClip Runloop;
+    [SerializeField] AudioClip Attksound;
+    [SerializeField] AudioSource asource;
+    private float sfxtimer=1.0f;
 
     // Start is called before the first frame update
     void Start()
@@ -40,6 +44,11 @@ public class MonsterMov : MonoBehaviour
             an.SetBool("Close", false);
             if (dir.x + dir.z < attackdist)
             {
+                if (!asource.isPlaying&&sfxtimer<=0)
+                {
+                    sfxtimer = 1.0f;
+                    asource.PlayOneShot(Attksound);
+                }
                 an.SetBool("Close",true);
                 ma.attacking = true;
             }
@@ -56,6 +65,7 @@ public class MonsterMov : MonoBehaviour
             
             
         }
+        sfxtimer -= Time.deltaTime;
     
     }
 

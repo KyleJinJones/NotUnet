@@ -79,10 +79,12 @@ public class Starter : MonoBehaviour
             if (other.name == "Player2")
             {
                 interactpanel2.SetActive(false);
+                close2 = false;
             }
             else
             {
                 interactpanel.SetActive(false);
+                close = false;
             }
         }
     }
