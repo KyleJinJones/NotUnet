@@ -68,6 +68,7 @@ public class WaveManager : MonoBehaviour
         GameObject targetplayer;
         for (int i = numOfEnemies - 1; i >= 0; --i)
         {
+            
             if (Random.Range(1, 3) ==1)
             {
                 targetplayer = player;

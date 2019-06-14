@@ -66,7 +66,7 @@ public class MonsterMov : MonoBehaviour
         an.SetBool("Dead", true);
         if (Random.Range(0, 10) == 3)
         {
-            Instantiate(powerup, this.transform.position, Quaternion.identity);
+            Instantiate(powerup, this.transform.position+Vector3.up, Quaternion.identity);
         }
         yield return new WaitForSeconds(5);
         Destroy(this.gameObject);
